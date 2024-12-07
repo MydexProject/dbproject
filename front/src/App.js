@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TabBar from './components/TabBar';
+import FriendList from './components/FriendList';
 
 const App = () => {
   const [userData, setUserData] = useState(null);
@@ -10,7 +11,7 @@ const App = () => {
   // 로그인 처리
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('http://localhost:5000/login', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, password }),
@@ -24,6 +25,7 @@ const App = () => {
       } else {
         alert(data.message);
       }
+
     } catch (error) {
       console.error('로그인 오류:', error);
     }
@@ -55,10 +57,14 @@ const App = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleLogin}>로그인</button>
+        
       </div>
+      
     );
   }
-
+  console.log('로그인한 사용자 데이터:', userData);
+  console.log('전달된 userId:', userData?.stu_id);
+  
   // 메인 화면
   return (
     <div>
@@ -71,7 +77,10 @@ const App = () => {
         />
       )}
       <main>
-        <h1>메인 콘텐츠</h1>
+        
+        <h1>친구 관리</h1>
+        {/* 친구 관리 컴포넌트 */}
+        <FriendList userId={userData?.stu_id} />
       </main>
     </div>
   );
